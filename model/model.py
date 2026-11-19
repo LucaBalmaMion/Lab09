@@ -54,7 +54,7 @@ class Model:
             for relazione in relazioni:
                 for punto_interesse in punti_interesse:
                     if relazione['id_escursione'] == escursion and relazione['id_punto_interesse'] == punto_interesse:
-                        set_punti_interesse.add(punto_interesse)
+                        set_punti_interesse.add(punti_interesse[punto_interesse])
             escursioni[escursion].punti_interesse = set_punti_interesse
 
 
@@ -94,5 +94,5 @@ class Model:
                 escursione = self.lista_escursioni[i]
                 if self.escursioni_map[escursione].id_parco == id_parco and self.escursioni_map[escursione].punti_interesse.intersection(punti_usati) == set():
                     pacchetto_parziale.append(self.escursioni_map[escursione])
-                    self._ricorsione(start_index + 1, pacchetto_parziale, durata_corrente + int(self.escursioni_map[escursione].durata_giorni), costo_corrente + float(self.escursioni_map[escursione].costo), valore_corrente + sum( float(self.punti_interesse_map[el].voto_visitatori) for el in self.escursioni_map[escursione].punti_interesse), punti_usati.union(self.escursioni_map[escursione].punti_interesse), id_parco, max_giorni, max_budget)
+                    self._ricorsione(i + 1, pacchetto_parziale, durata_corrente + int(self.escursioni_map[escursione].durata_giorni), costo_corrente + float(self.escursioni_map[escursione].costo), valore_corrente + sum( float(el.voto_visitatori) for el in self.escursioni_map[escursione].punti_interesse), punti_usati.union(self.escursioni_map[escursione].punti_interesse), id_parco, max_giorni, max_budget)
                     pacchetto_parziale.pop()
